@@ -1,15 +1,33 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using MiniAccountManagementSystem.App.Database;
+using MiniAccountManagementSystem.App.Utils;
+using System.Threading.Tasks;
+
 namespace MiniAccountManagementSystem.App
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddRazorPages();
 
+            builder.Services.AddDbContext<Database.ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             var app = builder.Build();
+
+            // roles seeding
+            using (var scope = app.Services.CreateScope())
+            {
+                await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
