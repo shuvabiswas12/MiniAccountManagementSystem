@@ -10,27 +10,19 @@ CREATE TABLE [ChartOfAccounts] (
 );
 
 CREATE TABLE [Vouchers] (
-    Id INT PRIMARY KEY IDENTITY,
-    VoucherType NVARCHAR(20),
+    VoucherId INT IDENTITY(1,1) PRIMARY KEY,
+    VoucherType NVARCHAR(50),
     VoucherDate DATE,
-    ReferenceNo NVARCHAR(50)
-)
+    ReferenceNo NVARCHAR(100)
+);
 
 CREATE TABLE [VoucherEntries] (
-    Id INT PRIMARY KEY IDENTITY,
-    VoucherId INT,
-    AccountId INT,
-    DebitAmount DECIMAL(18,2),
-    CreditAmount DECIMAL(18,2),
-    FOREIGN KEY (VoucherId) REFERENCES Vouchers(Id),
-    FOREIGN KEY (AccountId) REFERENCES ChartOfAccounts([AccountId])
-)
-
-CREATE TYPE VoucherEntryType AS TABLE
-(
-    AccountId INT,
-    DebitAmount DECIMAL(18, 2),
-    CreditAmount DECIMAL(18, 2)
+    EntryId INT IDENTITY(1,1) PRIMARY KEY,
+    VoucherId INT FOREIGN KEY REFERENCES Vouchers(VoucherId),
+    AccountId INT FOREIGN KEY REFERENCES ChartOfAccounts(AccountId),
+    Amount DECIMAL(18, 2),
+    EntryType NVARCHAR(10)  -- 'Debit' or 'Credit'
 );
+
 
 

@@ -1,0 +1,35 @@
+﻿@page "{id:int}"
+@model MiniAccountManagementSystem.App.Pages.Vouchers.DetailsModel
+@{
+    ViewData["Title"] = "Voucher Details";
+}
+
+<h2>Voucher Details</h2>
+
+<div class="mb-3">
+    <strong>Type:</strong> @Model.Voucher.VoucherType <br />
+    <strong>Date:</strong> @Model.Voucher.VoucherDate.ToShortDateString() <br />
+    <strong>Reference No:</strong> @Model.Voucher.ReferenceNo <br />
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Account Name</th>
+            <th>Debit</th>
+            <th>Credit</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entry in Model.Voucher.Entries)
+        {
+            <tr>
+                <td>@entry.AccountName</td>
+                <td>@(entry.EntryType == "Debit" ? entry.Amount.ToString("N2") : "")</td>
+                <td>@(entry.EntryType == "Credit" ? entry.Amount.ToString("N2") : "")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-secondary" asp-page="Index">← Back to List</a>

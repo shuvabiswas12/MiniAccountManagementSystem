@@ -1,0 +1,34 @@
+﻿@page
+@model MiniAccountManagementSystem.App.Pages.Vouchers.IndexModel
+@{
+    ViewData["Title"] = "Vouchers";
+}
+
+<h2>All Vouchers</h2>
+
+<a class="btn btn-primary mb-3" asp-page="Create">+ New Voucher</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Reference</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var v in Model.Vouchers)
+        {
+            <tr>
+                <td>@v.VoucherId</td>
+                <td>@v.VoucherType</td>
+                <td>@v.VoucherDate.ToShortDateString()</td>
+                <td>@v.ReferenceNo</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@v.VoucherId" class="btn btn-sm btn-info">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

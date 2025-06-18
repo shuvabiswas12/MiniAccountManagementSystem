@@ -1,0 +1,113 @@
+﻿@page
+@model MiniAccountManagementSystem.App.Pages.Vouchers.CreateModel
+@{
+    ViewData["Title"] = "Create Voucher";
+}
+
+<h2>Create Voucher</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label>Voucher Type</label>
+        <select asp-for="Voucher.VoucherType" class="form-control">
+            <option value="Journal">Journal</option>
+            <option value="Payment">Payment</option>
+            <option value="Receipt">Receipt</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Date</label>
+        <input asp-for="Voucher.VoucherDate" type="date" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Reference No</label>
+        <input asp-for="Voucher.ReferenceNo" class="form-control" />
+    </div>
+
+    <h4>Entries</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Account</th>
+                <th>Amount</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody id="entry-table-body">
+            @for (int i = 0; i < Model.Voucher.Entries.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <select name="Voucher.Entries[@i].AccountId" class="form-control">
+                            @foreach (var item in Model.AccountOptions)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <input name="Voucher.Entries[@i].Amount" class="form-control" />
+                    </td>
+                    <td>
+                        <select name="Voucher.Entries[@i].EntryType" class="form-control">
+                            <option value="Debit">Debit</option>
+                            <option value="Credit">Credit</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-secondary" onclick="addRow()">+ Add Entry</button>
+
+    <button type="submit" class="btn btn-primary">Save Voucher</button>
+</form>
+
+@{
+    var accountOptionsHtml = string.Join("", Model.AccountOptions.Select(a =>
+        $"<option value='{a.Value}'>{a.Text}</option>"));
+}
+
+@section Scripts {
+    <script>
+        const accountOptions = `@Html.Raw(accountOptionsHtml)`;
+
+        function addRow() {
+            const index = document.querySelectorAll("#entry-table-body tr").length;
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>
+                    <select name="Voucher.Entries[${index}].AccountId" class="form-control">
+                        ${accountOptions}
+                    </select>
+                </td>
+                <td>
+                    <input name="Voucher.Entries[${index}].Amount" class="form-control" />
+                </td>
+                <td>
+                    <select name="Voucher.Entries[${index}].EntryType" class="form-control">
+                        <option value="Debit">Debit</option>
+                        <option value="Credit">Credit</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button>
+                </td>
+            `;
+            document.querySelector("#entry-table-body").appendChild(row);
+        }
+
+        function removeRow(button) {
+            const row = button.closest("tr");
+            row.remove();
+        }
+    </script>
+}
+
+
