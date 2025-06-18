@@ -23,10 +23,18 @@ namespace MiniAccountManagementSystem.App
 
             var app = builder.Build();
 
-            // roles seeding
+            // data seeding
             using (var scope = app.Services.CreateScope())
             {
-                await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);
+                // Create a scope manually to access scoped services like DbContext, UserManager, RoleManager
+                // These services are disposed automatically when this using block ends
+                var serviceProvider = scope.ServiceProvider;
+                
+                // Roles seeding
+                await RoleSeeder.SeedRolesAsync(serviceProvider);
+
+                // Admin seeding
+                await AdminSeeder.SeedAdminAsync(serviceProvider);
             }
 
             // Configure the HTTP request pipeline.
