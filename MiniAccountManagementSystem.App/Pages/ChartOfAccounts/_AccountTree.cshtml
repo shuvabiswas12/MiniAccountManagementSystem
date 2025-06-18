@@ -1,0 +1,21 @@
+﻿@model MiniAccountManagementSystem.App.Pages.ChartOfAccounts.IndexModel.Account
+
+<li>
+    <span>@Model.AccountName</span>
+
+    <!-- ✨ Action buttons -->
+    <a asp-page="Edit" asp-route-id="@Model.AccountId" class="btn btn-sm btn-warning ml-2">Edit</a>
+    <a asp-page="Delete" asp-route-id="@Model.AccountId" class="btn btn-sm btn-danger ml-1">Delete</a>
+
+    @if (Model.Children != null && Model.Children.Count > 0)
+    {
+        <ul>
+            @foreach (var child in Model.Children)
+            {
+                @Html.Partial("_AccountTree", child)
+            }
+        </ul>
+    }
+</li>
+
+

@@ -1,0 +1,17 @@
+﻿@page
+@model MiniAccountManagementSystem.App.Pages.ChartOfAccounts.IndexModel
+@{
+    ViewData["Title"] = "Chart of Accounts";
+}
+
+<h2>Chart of Accounts</h2>
+
+<a class="btn btn-success mb-3" asp-page="/ChartOfAccounts/Create">+ New Account</a>
+
+<ul>
+    @foreach (var acc in Model.Accounts)
+    {
+        @Html.Partial("_AccountTree", acc)
+    }
+</ul>
+
