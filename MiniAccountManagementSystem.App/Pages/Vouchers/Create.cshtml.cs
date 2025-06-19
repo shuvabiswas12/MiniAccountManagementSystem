@@ -9,7 +9,7 @@ using System.Data;
 
 namespace MiniAccountManagementSystem.App.Pages.Vouchers
 {
-
+    [Authorize(Roles = $"{ApplicationRoles.ADMIN}, {ApplicationRoles.ACCOUNTANT}")]
     public class CreateModel : PageModel
     {
         private readonly IConfiguration _config;
