@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using MiniAccountManagementSystem.App.Models;
+using MiniAccountManagementSystem.App.Utils;
 using System.Data;
 
 namespace MiniAccountManagementSystem.App.Pages.Vouchers
 {
+
     public class CreateModel : PageModel
     {
         private readonly IConfiguration _config;
@@ -29,6 +32,17 @@ namespace MiniAccountManagementSystem.App.Pages.Vouchers
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid) return Page();
+
+            var totalDebit = Voucher.Entries.Where(e => e.EntryType == "Debit").Sum(e => e.Amount);
+            var totalCredit = Voucher.Entries.Where(e => e.EntryType == "Credit").Sum(e => e.Amount);
+
+            if (totalDebit > totalCredit)
+            {
+                ModelState.AddModelError("", "Total Debit must equal to or less than Total Credit.");
+                await LoadAccountDropdown();
+                return Page();
+            }
+
 
             DataTable entryTable = new();
             entryTable.Columns.Add("AccountId", typeof(int));

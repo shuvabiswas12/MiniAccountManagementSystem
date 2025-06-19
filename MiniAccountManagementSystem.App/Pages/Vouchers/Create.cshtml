@@ -7,6 +7,16 @@
 <h2>Create Voucher</h2>
 
 <form method="post">
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <div>@error.ErrorMessage</div>
+            }
+        </div>
+    }
+
     <div class="form-group">
         <label>Voucher Type</label>
         <select asp-for="Voucher.VoucherType" class="form-control">
@@ -57,7 +67,7 @@
                         </select>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button>
+                        
                     </td>
                 </tr>
             }
