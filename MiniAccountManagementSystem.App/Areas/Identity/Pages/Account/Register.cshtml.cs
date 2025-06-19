@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MiniAccountManagementSystem.App.Utils;
 
 namespace MiniAccountManagementSystem.App.Areas.Identity.Pages.Account
 {
@@ -121,6 +122,22 @@ namespace MiniAccountManagementSystem.App.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    // Determine role based on email
+                    if (Input.Email.EndsWith("@admin.com", StringComparison.OrdinalIgnoreCase))
+                    {
+                        await _userManager.AddToRoleAsync(user, ApplicationRoles.ADMIN);
+                    }
+                    else if (Input.Email.EndsWith("@accountant.com", StringComparison.OrdinalIgnoreCase))
+                    {
+                        await _userManager.AddToRoleAsync(user, ApplicationRoles.ACCOUNTANT);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, ApplicationRoles.VIEWER);
+                    }
+
+                    await _userManager.AddToRoleAsync(user, ApplicationRoles.VIEWER); // Assigning the Accountant role
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
