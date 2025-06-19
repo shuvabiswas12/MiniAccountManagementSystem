@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using MiniAccountManagementSystem.App.Database;
 using MiniAccountManagementSystem.App.Utils;
@@ -15,8 +16,13 @@ namespace MiniAccountManagementSystem.App
             // Add services to the container.
             builder.Services.AddRazorPages();
 
+            // For resolving IEmailSender exception on activating RegisterModel.
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
+
             builder.Services.AddDbContext<Database.ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
