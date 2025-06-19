@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using MiniAccountManagementSystem.App.Models;
+using MiniAccountManagementSystem.App.Utils;
 
 namespace MiniAccountManagementSystem.App.Pages.Vouchers
 {
+    //[Authorize(Roles = $"{ApplicationRoles.ADMIN}, {ApplicationRoles.ACCOUNTANT}, {ApplicationRoles.VIEWER}")]
     public class DetailsModel : PageModel
     {
         private readonly IConfiguration _config;

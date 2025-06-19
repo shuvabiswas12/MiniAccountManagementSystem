@@ -30,6 +30,30 @@
             </tr>
         }
     </tbody>
+    <tfoot>
+    <tr>
+        <td><strong>Total</strong></td>
+        <td>
+            <strong>
+                @(
+                @Model.Voucher.Entries
+                      .Where(e => e.EntryType == "Debit")
+                      .Sum(e => e.Amount).ToString("N2")
+                )
+            </strong>
+        </td>
+        <td>
+            <strong>
+                @(
+                    @Model.Voucher.Entries
+                    .Where(e => e.EntryType == "Credit")
+                    .Sum(e => e.Amount).ToString("N2")
+                )
+            </strong>
+        </td>
+    </tr>
+</tfoot>
+
 </table>
 
 <a class="btn btn-secondary" asp-page="Index">← Back to List</a>

@@ -29,7 +29,7 @@ namespace MiniAccountManagementSystem.App
                 // Create a scope manually to access scoped services like DbContext, UserManager, RoleManager
                 // These services are disposed automatically when this using block ends
                 var serviceProvider = scope.ServiceProvider;
-                
+
                 // Roles seeding
                 await RoleSeeder.SeedRolesAsync(serviceProvider);
 
@@ -49,7 +49,7 @@ namespace MiniAccountManagementSystem.App
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapRazorPages();
