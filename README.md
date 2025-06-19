@@ -51,6 +51,23 @@ A simple yet functional accounting system built using **ASP.NET Core Razor Pages
 
 ### You can register as a new user (Role- Viewer)
 
+---
+
+## 🔐 Automatic Role Assignment Based on Email
+
+During user registration, roles are **automatically assigned** based on the email domain:
+
+| Email Domain         | Assigned Role |
+|----------------------|----------------|
+| `@admin.com`         | Admin          |
+| `@accountant.com`    | Accountant     |
+| Any other domain     | Viewer         |
+
+This ensures role-based access is handled intelligently and efficiently.  
+Roles must exist in the system and are automatically **seeded on application startup**.
+
+---
+
 ## 📂 Folder Structure (Important Pages)
 
 ```
