@@ -1,11 +1,14 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
+using MiniAccountManagementSystem.App.Utils;
 using System.Data;
 
 namespace MiniAccountManagementSystem.App.Pages.ChartOfAccounts
 {
+    [Authorize(Roles = $"{ApplicationRoles.ADMIN}, {ApplicationRoles.ACCOUNTANT}")]
     public class EditModel : PageModel
     {
         private readonly IConfiguration _config;

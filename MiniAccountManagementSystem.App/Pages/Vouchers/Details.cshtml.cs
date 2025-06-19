@@ -7,7 +7,6 @@ using MiniAccountManagementSystem.App.Utils;
 
 namespace MiniAccountManagementSystem.App.Pages.Vouchers
 {
-    //[Authorize(Roles = $"{ApplicationRoles.ADMIN}, {ApplicationRoles.ACCOUNTANT}, {ApplicationRoles.VIEWER}")]
     public class DetailsModel : PageModel
     {
         private readonly IConfiguration _config;
